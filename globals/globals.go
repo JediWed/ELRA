@@ -43,4 +43,9 @@ func SetupGlobals() {
 		Config.Database = "./elra.db"
 	}
 
+	if Config.Macaroon == "" {
+		log.Println("No Macaroon was configured. Setting to local admin.macaroon.")
+		Config.Macaroon = "./admin.macaroon"
+	}
+
 }

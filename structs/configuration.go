@@ -7,4 +7,5 @@ type Configuration struct {
 	SigningKey  string
 	Pepper      string
 	Database    string
+	Macaroon    string
 }
