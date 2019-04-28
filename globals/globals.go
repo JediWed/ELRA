@@ -10,6 +10,10 @@ import (
 
 const Version = "1.0"
 
+// Roles
+var RoleAdmin = structs.DescriptionType{ID: 1, Description: "Admin"}
+var RoleUser = structs.DescriptionType{ID: 2, Description: "User"}
+
 var Config structs.Configuration
 
 func SetupGlobals() {
