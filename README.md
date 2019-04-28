@@ -58,6 +58,10 @@ pm2 start pm2-ELRA.json
 |make serve|Build and start API|
 |make release|Builds binaries for macOS, Windows, Linux and Raspberry Pi. Release builds can be found in release/|
 
+### Build Releases on other Hosts than macOS
+
+To Cross Compile on other Hosts (e.g. Windows or Linux) edit Makefile and replace CC Binaries with your installed Cross Compile Binaries.
+
 ## License
 
 ELRA is released under the terms of the GPL-3.0 license. See [LICENSE](LICENSE) for more information or see https://www.gnu.org/licenses/.
