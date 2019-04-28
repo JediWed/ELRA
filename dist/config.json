@@ -3,6 +3,6 @@
     "AllowedHost": "127.0.0.1",
     "SigningKey": "lss8hzIsJbXCP4g33yp12LtsrMJCehTK",
     "Pepper": "C6yCmdDaCDkxiIrRBngJ2mhil9ihHnM6rDP6Pp7Zn4",
-    "Macaroon": "admin.macaroon",
+    "Macaroon": "./admin.macaroon",
     "Database": "./elra.db"
 }
