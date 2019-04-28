@@ -23,6 +23,7 @@
 
 ```bash
 brew install go 
+brew install mingw-w64
 brew install FiloSottile/musl-cross/musl-cross
 brew reinstall FiloSottile/musl-cross/musl-cross --with-arm-hf
 ```
