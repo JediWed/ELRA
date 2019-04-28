@@ -4,6 +4,7 @@ import (
 	"ELRA/structs"
 	"ELRA/tools"
 	"encoding/json"
+	"log"
 	"os"
 )
 
@@ -19,18 +20,22 @@ func SetupGlobals() {
 	tools.CheckError(err)
 
 	if Config.Port <= 0 || Config.Port > 65535 {
+		log.Println("No configured Port was found. Setting to 8181")
 		Config.Port = 8181
 	}
 
 	if Config.Pepper == "" {
+		log.Println("No configured Pepper was found. Creating Default Pepper. This is very dangerous. You should set a Signing Key in your config.")
 		Config.Pepper = "C6yCmdDaCDkxiIrRBngJ2mhil9ihHnM6rDP6Pp7Zn4"
 	}
 
 	if Config.SigningKey == "" {
-		Config.Pepper = "lss8hzIsJbXCP4g33yp12LtsrMJCehTK"
+		log.Println("No configured Signing Kex was found. Creating Default Signing Key. This is very dangerous. You should set a Signing Key in your config.")
+		Config.SigningKey = "lss8hzIsJbXCP4g33yp12LtsrMJCehTK"
 	}
 
 	if Config.Database == "" {
+		log.Println("No Database was configured. Setting to default database elra.db.")
 		Config.Database = "./elra.db"
 	}
 
