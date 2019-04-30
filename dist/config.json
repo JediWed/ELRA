@@ -6,6 +6,6 @@
     "Macaroon": "./admin.macaroon",
     "TLS": "./tls.cert",
     "LightningServer": "127.0.0.1",
-    "LightninggRPCPort": "1009",
+    "LightninggRPCPort": 10009,
     "Database": "./elra.db"
 }

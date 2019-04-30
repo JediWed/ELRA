@@ -53,4 +53,13 @@ func SetupGlobals() {
 		Config.Macaroon = "./tls.cert"
 	}
 
+	if Config.LightningServer == "" {
+		log.Println("No Lightning Server was configured. Setting to 127.0.0.1.")
+		Config.LightningServer = "127.0.0.1"
+	}
+
+	if Config.LightninggRPCPort <= 0 || Config.LightninggRPCPort > 65535 {
+		log.Println("No configured Lighting Port was found. Setting to 10009")
+		Config.Port = 10009
+	}
 }
