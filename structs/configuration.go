@@ -8,4 +8,5 @@ type Configuration struct {
 	Pepper      string
 	Database    string
 	Macaroon    string
+	TLS         string
 }

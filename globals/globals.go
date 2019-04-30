@@ -48,4 +48,9 @@ func SetupGlobals() {
 		Config.Macaroon = "./admin.macaroon"
 	}
 
+	if Config.TLS == "" {
+		log.Println("No TLS was configured. Setting to local tls.cert.")
+		Config.Macaroon = "./tls.cert"
+	}
+
 }
