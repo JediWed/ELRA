@@ -32,10 +32,29 @@ func SetupDatabase() {
 		tools.CheckError(err)
 		createUser.Exec()
 		passwordHash, err := bcrypt.GenerateFromPassword([]byte("private"+globals.Config.Pepper), bcrypt.DefaultCost)
-		insertuser, err := db.Prepare("INSERT INTO user (name, password, firstname, lastname, email, role) VALUES (?, ?, ?, ?, ?, ?)")
+		insertuser, err := db.Prepare("INSERT INTO user (id, name, password, firstname, lastname, email, role) VALUES (?, ?, ?, ?, ?, ?, ?)")
 		tools.CheckError(err)
-		insertuser.Exec("admin", string(passwordHash), "Admin", "Almighty", "admin@allnetworks.com", globals.RoleAdmin.ID)
+		insertuser.Exec(1, "admin", string(passwordHash), "Admin", "Almighty", "admin@allnetworks.com", globals.RoleAdmin.ID)
 
+		// Create Privileges
+		createPrivileges, err := db.Prepare("CREATE TABLE privileges (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, description VARCHAR(255) NOT NULL);")
+		tools.CheckError(err)
+		createPrivileges.Exec()
+		insertPrivilege, err := db.Prepare("INSERT INTO privileges (id, description) VALUES (?, ?)")
+		tools.CheckError(err)
+		for _, privilege := range globals.Privileges {
+			insertPrivilege.Exec(privilege.ID, privilege.Description)
+		}
+
+		// Create UserPrivileges
+		createUserPrivileges, err := db.Prepare("CREATE TABLE user_privileges (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user INTEGER NOT NULL, privilege INTEGER NOT NULL, FOREIGN KEY (user) REFERENCES user(id) ON DELETE CASCADE, FOREIGN KEY (privilege) REFERENCES privileges(id) ON DELETE RESTRICT)")
+		tools.CheckError(err)
+		createUserPrivileges.Exec()
+		insertUserPrivilege, err := db.Prepare("INSERT INTO user_privileges (user, privilege) VALUES (?, ?)")
+		tools.CheckError(err)
+		for _, privilege := range globals.Privileges {
+			insertUserPrivilege.Exec(1, privilege.ID)
+		}
 	} else {
 		log.Println("Loading database...")
 	}

@@ -17,6 +17,15 @@ const Version = "1.0"
 var RoleAdmin = structs.DescriptionType{ID: 1, Description: "Admin"}
 var RoleUser = structs.DescriptionType{ID: 2, Description: "User"}
 
+// Privileges
+type Privilege structs.DescriptionType
+
+var (
+	GetInfoPrivilege Privilege = Privilege{ID: 1, Description: "GetInfo"}
+)
+
+var Privileges = []Privilege{GetInfoPrivilege}
+
 var Config structs.Configuration
 
 func SetupGlobals() {
