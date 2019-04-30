@@ -5,6 +5,7 @@ import (
 	"ELRA/tools"
 	"context"
 	"io/ioutil"
+	"strconv"
 
 	"github.com/lightningnetwork/lnd/lnrpc"
 	"github.com/lightningnetwork/lnd/macaroons"
@@ -16,6 +17,7 @@ import (
 var Client lnrpc.LightningClient
 var Context context.Context
 
+// SetupLND sets up all needed information for connecting lnd and creates a connection
 func SetupLND() {
 	tlsCreds, err := credentials.NewClientTLSFromFile(globals.Config.TLS, "")
 	tools.CheckError(err)
@@ -33,7 +35,7 @@ func SetupLND() {
 		grpc.WithPerRPCCredentials(macaroons.NewMacaroonCredential(mac)),
 	}
 
-	conn, err := grpc.Dial("178.254.20.84:10009", options...)
+	conn, err := grpc.Dial(globals.Config.LightningServer+":"+strconv.Itoa(globals.Config.LightninggRPCPort), options...)
 	tools.CheckError(err)
 	defer conn.Close()
 
