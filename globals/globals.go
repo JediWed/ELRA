@@ -5,7 +5,10 @@ import (
 	"ELRA/tools"
 	"encoding/json"
 	"log"
+	"net"
 	"os"
+	"regexp"
+	"strings"
 )
 
 const Version = "1.0"
@@ -56,6 +59,17 @@ func SetupGlobals() {
 	if Config.LightningServer == "" {
 		log.Println("No Lightning Server was configured. Setting to 127.0.0.1.")
 		Config.LightningServer = "127.0.0.1"
+	} else {
+		Config.LightningServer = strings.ToLower(Config.LightningServer)
+		ipRegEx, _ := regexp.Compile(`^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$`)
+		domainRegEx, _ := regexp.Compile(`^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$`)
+		if domainRegEx.MatchString(Config.LightningServer) || Config.LightningServer == "localhost" {
+			ips, err := net.LookupIP(Config.LightningServer)
+			tools.CheckError(err)
+			Config.LightningServer = ips[0].String()
+		} else if !ipRegEx.MatchString(Config.LightningServer) && Config.LightningServer != "localhost" {
+			log.Fatal("Your Lightning Server URL (" + Config.LightningServer + ") is wrong. Please use FQDN Format!")
+		}
 	}
 
 	if Config.LightninggRPCPort <= 0 || Config.LightninggRPCPort > 65535 {
