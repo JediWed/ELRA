@@ -5,7 +5,7 @@
 
 ## Comparison
 
-![alt text](https://raw.githubusercontent.com/JediWed/ELRA/master/docs/comparison.png "Comparison Table")
+![Comparison Table](https://raw.githubusercontent.com/JediWed/ELRA/master/docs/comparison.png "Comparison Table")
 
 ## Build
 
