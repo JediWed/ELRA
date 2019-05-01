@@ -10,7 +10,7 @@
 |Easy to use                        |<span style="color:green">**yes**</span>|<span style="color:red">**no**  |<span style="color:red">**no**        |
 |User Management                    |<span style="color:green">**yes**</span>|<span style="color:red">**no**  |<span style="color:red">**no**        |
 |Role Management                    |<span style="color:green">**yes**</span>|<span style="color:red">**no**  |<span style="color:red">**no**        |
-|Reveals Macaroons to Frontend      |<span style="color:green">**no**</span> |<span style="color:green">**no**|<span style="color:red">**yes**       |
+|Reveals Macaroons to Frontend      |<span style="color:green">**no**</span> |<span style="color:red">**yes**|<span style="color:red">**yes**        |
 |Reveals RPC Credentials to Frontend|<span style="color:green">**no**</span> |<span style="color:red">**yes** |<span style="color:green">**no**</span>|
 
 
