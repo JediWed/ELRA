@@ -11,11 +11,17 @@ build: clean
 serve: build
 	cd dist && ./elra
 
+linux: clean
+	mkdir release
+	GOOS=linux GOARCH=amd64 go build -ldflags '-w -extldflags "-static"' -o dist/elra elra.go
+	zip -rj release/ELRA_$(version)_Linux.zip dist/*
+	$(RM) dist/elra dist/elra.exe dist/elra.db
+
 release: clean
 	mkdir release
 
 	# macOS x64
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o dist/elra elra.go
+	GOOS=darwin GOARCH=amd64 go build -o dist/elra elra.go
 	zip -rj release/ELRA_$(version)_macOS.zip dist/*
 	$(RM) dist/elra dist/elra.exe dist/elra.db
 	
