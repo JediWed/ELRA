@@ -14,7 +14,7 @@ import (
 )
 
 func Login(loginRequest structs.LoginRequest) ([]byte, error) {
-	db, err := sql.Open("sqlite3", globals.Config.Database)
+	db, err := sql.Open(DatabaseType, globals.Config.Database)
 	tools.CheckError(err)
 	defer db.Close()
 
@@ -71,7 +71,7 @@ func Login(loginRequest structs.LoginRequest) ([]byte, error) {
 
 func UpdatePassword(updateRequest structs.UpdatePasswordRequest) error {
 
-	db, err := sql.Open("sqlite3", globals.Config.Database)
+	db, err := sql.Open(DatabaseType, globals.Config.Database)
 	tools.CheckError(err)
 	defer db.Close()
 
@@ -94,7 +94,7 @@ func UpdatePassword(updateRequest structs.UpdatePasswordRequest) error {
 
 func UpdateUsername(updateRequest structs.UpdateUsernameRequest) error {
 
-	db, err := sql.Open("sqlite3", globals.Config.Database)
+	db, err := sql.Open(DatabaseType, globals.Config.Database)
 	tools.CheckError(err)
 	defer db.Close()
 

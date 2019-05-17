@@ -10,11 +10,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// DatabaseType describes the Database which is used
+const DatabaseType = "sqlite3"
+
 // SetupDatabase Creates the database if there is no one
 func SetupDatabase() {
 	if _, err := os.Stat(globals.Config.Database); os.IsNotExist(err) {
 		log.Println("No database found. Creating...")
-		db, err := sql.Open("sqlite3", globals.Config.Database)
+		db, err := sql.Open(DatabaseType, globals.Config.Database)
 		tools.CheckError(err)
 		defer db.Close()
 
