@@ -4,7 +4,6 @@ import (
 	"ELRA/globals"
 	"ELRA/tools"
 	"context"
-	fmt "fmt"
 	"io/ioutil"
 	"log"
 	"strconv"
@@ -48,16 +47,12 @@ func SetupLND() {
 
 	Client = lnrpc.NewLightningClient(conn)
 
-	getInfoResp, err := Client.GetInfo(Context, &lnrpc.GetInfoRequest{})
+	info, err := Client.GetInfo(Context, &lnrpc.GetInfoRequest{})
 	tools.CheckError(err)
-
-	getNodeInfoResp, err := Client.GetNodeInfo(Context, &lnrpc.NodeInfoRequest{})
-	tools.CheckError(err)
-
-	getNetworkInfoResp, err := Client.GetNetworkInfo(Context, &lnrpc.NetworkInfoRequest{})
 
 	log.Print("LND Connection established.")
-	log.Print("LND Version: " + getInfoResp.GetVersion())
-	log.Print("LND Name: " + getNodeInfoResp.GetNode().GetAlias())
-	log.Print(fmt.Sprint(getNetworkInfoResp.GetNumChannels()))
+	log.Print("LND Version: " + info.GetVersion())
+	log.Print("LND Node: " + info.GetAlias())
+	log.Print("LND ID: " + info.GetIdentityPubkey())
+
 }
