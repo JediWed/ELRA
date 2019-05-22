@@ -3,8 +3,8 @@
     "AllowedHost": "127.0.0.1",
     "SigningKey": "lss8hzIsJbXCP4g33yp12LtsrMJCehTK",
     "Pepper": "C6yCmdDaCDkxiIrRBngJ2mhil9ihHnM6rDP6Pp7Zn4",
-    "Macaroon": "/Users/edtu/Keys/admin.macaroon",
-    "TLS": "/Users/edtu/Keys/tls.cert",
+    "Macaroon": "/Users/wed/Keys/Lightning/admin.macaroon",
+    "TLS": "/Users/wed/Keys/Lightning/tls.cert",
     "LightningServer": "turcan.de",
     "LightninggRPCPort": 10009,
     "Database": "./elra.db"
