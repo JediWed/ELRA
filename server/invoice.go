@@ -33,5 +33,5 @@ func CreateInvoice(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	responseJSON, err := json.Marshal(&structs.InvoiceResponse{PaymentRequest: invoice.GetPaymentRequest()})
 	tools.CheckError(err)
-	response.Write(responseJson)
+	response.Write(responseJSON)
 }
