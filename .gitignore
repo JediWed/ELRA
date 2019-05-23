@@ -1,3 +1,4 @@
 release/
 dist/elra
 dist/*.db
+.DS_Store
