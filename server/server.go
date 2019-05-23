@@ -29,9 +29,9 @@ func StartServer() {
 		return
 	})
 
-	router.HandleFunc("/login", Login).Methods("POST")
 	router.HandleFunc("/version", GetVersion).Methods("GET")
-	router.HandleFunc("/createInvoice", CreateInvoice).Methods("GET")
+	router.HandleFunc("/invoice/createInvoice", CreateInvoice).Methods("GET")
+	router.HandleFunc("/user/login", Login).Methods("POST")
 	router.Handle("/user/updatePassword", authorization.CheckAuthorization(UpdatePassword)).Methods("POST")
 	router.Handle("/user/updateUsername", authorization.CheckAuthorization(UpdateUsername)).Methods("POST")
 
