@@ -10,3 +10,7 @@ type LoginResponse struct {
 	Role      int    `json:"role"`
 	Token     string `json:"token"`
 }
+
+type InvoiceResponse struct {
+	PaymentRequest string `json:"payment_request"`
+}

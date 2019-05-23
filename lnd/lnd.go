@@ -16,13 +16,24 @@ import (
 	"gopkg.in/macaroon.v2"
 )
 
-var Client lnrpc.LightningClient
-var Context context.Context
-
 // SetupLND sets up all needed information for connecting lnd and creates a connection
 func SetupLND() {
 	log.Print("Preparing LND Connection")
 
+	context, cancel, client, conn := ConnectLND()
+	defer conn.Close()
+	defer cancel()
+
+	info, err := client.GetInfo(context, &lnrpc.GetInfoRequest{})
+	tools.CheckError(err)
+
+	log.Print("LND Connection established.")
+	log.Print("LND Version: " + info.GetVersion())
+	log.Print("LND Node: " + info.GetAlias())
+	log.Print("LND ID: " + info.GetIdentityPubkey())
+}
+
+func ConnectLND() (context.Context, context.CancelFunc, lnrpc.LightningClient, *grpc.ClientConn) {
 	tlsCreds, err := credentials.NewClientTLSFromFile(globals.Config.TLS, "")
 	tools.CheckError(err)
 
@@ -39,20 +50,12 @@ func SetupLND() {
 		grpc.WithPerRPCCredentials(macaroons.NewMacaroonCredential(mac)),
 	}
 
-	Context, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	conn, err := grpc.DialContext(Context, globals.Config.LightningServer+":"+strconv.Itoa(globals.Config.LightninggRPCPort), options...)
-	defer conn.Close()
-	defer cancel()
+	context, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	conn, err := grpc.DialContext(context, globals.Config.LightningServer+":"+strconv.Itoa(globals.Config.LightninggRPCPort), options...)
 	tools.CheckError(err)
 
-	Client = lnrpc.NewLightningClient(conn)
+	client := lnrpc.NewLightningClient(conn)
 
-	info, err := Client.GetInfo(Context, &lnrpc.GetInfoRequest{})
-	tools.CheckError(err)
-
-	log.Print("LND Connection established.")
-	log.Print("LND Version: " + info.GetVersion())
-	log.Print("LND Node: " + info.GetAlias())
-	log.Print("LND ID: " + info.GetIdentityPubkey())
+	return context, cancel, client, conn
 
 }

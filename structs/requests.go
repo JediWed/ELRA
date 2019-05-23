@@ -17,3 +17,9 @@ type UpdateUsernameRequest struct {
 	Username string `json:"username"`
 	UserID   int
 }
+
+// InvoiceRequest is a structure for creating an invoice
+type InvoiceRequest struct {
+	Amount int64  `json:"amount"`
+	Memo   string `json:"memo"`
+}
