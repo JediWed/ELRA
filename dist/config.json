@@ -3,9 +3,11 @@
     "AllowedHost": "127.0.0.1",
     "SigningKey": "lss8hzIsJbXCP4g33yp12LtsrMJCehTK",
     "Pepper": "C6yCmdDaCDkxiIrRBngJ2mhil9ihHnM6rDP6Pp7Zn4",
-    "Macaroon": "/Users/wed/Keys/Lightning/admin.macaroon",
-    "TLS": "/Users/wed/Keys/Lightning/tls.cert",
-    "LightningServer": "turcan.de",
+    "Macaroon": "",
+    "TLS": "",
+    "LightningServer": "",
     "LightninggRPCPort": 10009,
-    "Database": "./elra.db"
+    "Database": "./elra.db",
+    "BitcoinPriceAPI": "https://api.bugs-ev.de/v1/bitcoinPrice",
+    "BitcoinPriceAPIKeyword": "bitcoin"
 }

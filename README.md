@@ -26,7 +26,11 @@ brew reinstall FiloSottile/musl-cross/musl-cross --with-arm-hf
 go get github.com/mattn/go-sqlite3
 go get github.com/dgrijalva/jwt-go
 go get github.com/gorilla/mux
+go get github.com/golang/protobuf/proto
+go get github.com/lightningnetwork/lnd/lnrpc
+go get github.com/lightningnetwork/lnd/macaroons
 go get golang.org/x/crypto/bcrypt
+go get golang.org/x/sys/unix
 ```
 5. Clone InventorizerAPI
 ```bash

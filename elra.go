@@ -5,6 +5,7 @@ import (
 	"ELRA/globals"
 	"ELRA/lnd"
 	"ELRA/server"
+	"ELRA/tools"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -15,5 +16,6 @@ func main() {
 	globals.SetupGlobals()
 	database.SetupDatabase()
 	lnd.SetupLND()
+	tools.StartPriceDaemon(globals.Config)
 	server.StartServer()
 }

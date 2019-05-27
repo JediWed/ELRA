@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := build
-version := 1.0
+version := Alpha1
 
 clean:
 	$(RM) dist/elra dist/elra.exe dist/elra.db

@@ -11,23 +11,32 @@ import (
 	"strings"
 )
 
-const Version = "1.0"
+// Version is the global version of ELRA
+const Version = "Alpha 01"
 
 // Roles
+
+// RoleAdmin is the role for Admins
 var RoleAdmin = structs.DescriptionType{ID: 1, Description: "Admin"}
+
+// RoleUser ist the role für Users
 var RoleUser = structs.DescriptionType{ID: 2, Description: "User"}
 
-// Privileges
+// Privilege is a struct for privileges
 type Privilege structs.DescriptionType
 
 var (
-	GetInfoPrivilege Privilege = Privilege{ID: 1, Description: "GetInfo"}
+	// GetInfoPrivilege is the privilege to use GetInfo
+	GetInfoPrivilege = Privilege{ID: 1, Description: "GetInfo"}
 )
 
+// Privileges is an array of all available privileges
 var Privileges = []Privilege{GetInfoPrivilege}
 
+// Config is the global configuration singleton of ELRA
 var Config structs.Configuration
 
+// SetupGlobals sets up all global configurations
 func SetupGlobals() {
 	configFile, err := os.Open("./config.json")
 	tools.CheckError(err)
@@ -84,5 +93,13 @@ func SetupGlobals() {
 	if Config.LightninggRPCPort <= 0 || Config.LightninggRPCPort > 65535 {
 		log.Println("No configured Lighting Port was found. Setting to 10009")
 		Config.Port = 10009
+	}
+
+	if Config.BitcoinPriceAPI == "" {
+		log.Println("No Bitcoin Price API was found. Setting to https://api.bugs-ev.de/v1/bitcoinPrice")
+		Config.BitcoinPriceAPI = "https://api.bugs-ev.de/v1/bitcoinPrice"
+		Config.BitcoinPriceAPIKeyword = "bitcoin"
+	} else if Config.BitcoinPriceAPIKeyword == "" {
+		log.Fatal("No Bitcoin Price API Keyword was found. Exiting...")
 	}
 }

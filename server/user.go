@@ -4,12 +4,24 @@ import (
 	"ELRA/authorization"
 	"ELRA/database"
 	"ELRA/structs"
+	"ELRA/tools"
 	"encoding/json"
 	"log"
 	"net/http"
 )
 
+// LoginEndpoint is the Endpoint for Login
+const LoginEndpoint = "/user/login"
+
+// UpdatePasswordEndpoint is the Endpoint for UpdatePassword
+const UpdatePasswordEndpoint = "/user/updatePassword"
+
+// UpdateUsernameEndpoint is the Endpoint for UpdateUsername
+const UpdateUsernameEndpoint = "/user/updateUsername"
+
+// Login is the server sided function to handle login endpoint
 func Login(response http.ResponseWriter, request *http.Request) {
+	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), LoginEndpoint)
 	SetupCORS(&response, request)
 	if (*request).Method == "OPTIONS" {
 		return
@@ -34,7 +46,9 @@ func Login(response http.ResponseWriter, request *http.Request) {
 	response.Write(json)
 }
 
+// UpdatePassword is the server sided function to handle update password endpoint
 func UpdatePassword(response http.ResponseWriter, request *http.Request) {
+	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), UpdatePasswordEndpoint)
 	SetupCORS(&response, request)
 	userid, _, err := authorization.ParseUserIDAndRole(request)
 
@@ -64,7 +78,9 @@ func UpdatePassword(response http.ResponseWriter, request *http.Request) {
 	log.Print("Password of UserID ", userid, " was changed")
 }
 
+// UpdateUsername is the server sided function to handle update username endpoint
 func UpdateUsername(response http.ResponseWriter, request *http.Request) {
+	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), UpdateUsernameEndpoint)
 	SetupCORS(&response, request)
 	userid, _, err := authorization.ParseUserIDAndRole(request)
 

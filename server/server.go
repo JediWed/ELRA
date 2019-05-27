@@ -29,11 +29,16 @@ func StartServer() {
 		return
 	})
 
-	router.HandleFunc("/version", GetVersion).Methods("GET")
-	router.HandleFunc("/invoice/createInvoice", CreateInvoice).Methods("GET")
-	router.HandleFunc("/user/login", Login).Methods("POST")
-	router.Handle("/user/updatePassword", authorization.CheckAuthorization(UpdatePassword)).Methods("POST")
-	router.Handle("/user/updateUsername", authorization.CheckAuthorization(UpdateUsername)).Methods("POST")
+	// root
+	router.HandleFunc(GetVersionEndpoint, GetVersion).Methods("GET")
+
+	// /invoice
+	router.HandleFunc(CreateInvoiceEndpoint, CreateInvoice).Methods("GET")
+
+	// /user
+	router.HandleFunc(LoginEndpoint, Login).Methods("POST")
+	router.Handle(UpdatePasswordEndpoint, authorization.CheckAuthorization(UpdatePassword)).Methods("POST")
+	router.Handle(UpdateUsernameEndpoint, authorization.CheckAuthorization(UpdateUsername)).Methods("POST")
 
 	log.Print("Starting REST API on: ", globals.Config.AllowedHost, ":", globals.Config.Port)
 	http.ListenAndServe(fmt.Sprintf("%s:%d", globals.Config.AllowedHost, globals.Config.Port), router)

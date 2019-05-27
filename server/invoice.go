@@ -1,6 +1,7 @@
 package server
 
 import (
+	"ELRA/database"
 	"ELRA/lnd"
 	"ELRA/structs"
 	"ELRA/tools"
@@ -11,8 +12,12 @@ import (
 	"github.com/lightningnetwork/lnd/lnrpc"
 )
 
+// CreateInvoiceEndpoint is the Endpoint for CreateInvoice
+const CreateInvoiceEndpoint = "/invoice/createInvoice"
+
 // CreateInvoice creates an invoice with amount and optional memo
 func CreateInvoice(response http.ResponseWriter, request *http.Request) {
+	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), CreateInvoiceEndpoint)
 	SetupCORS(&response, request)
 	var invoiceRequest structs.InvoiceRequest
 	err := json.NewDecoder(request.Body).Decode(&invoiceRequest)

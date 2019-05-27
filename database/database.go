@@ -58,6 +58,11 @@ func SetupDatabase() {
 		for _, privilege := range globals.Privileges {
 			insertUserPrivilege.Exec(1, privilege.ID)
 		}
+
+		// Create Log Databases
+		createAccessLog, err := db.Prepare("CREATE TABLE access_log (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date DATETIME DEFAULT CURRENT_TIMESTAMP, ip VARCHAR(255), endpoint VARCHAR(255))")
+		tools.CheckError(err)
+		createAccessLog.Exec()
 	} else {
 		log.Println("Loading database...")
 	}
