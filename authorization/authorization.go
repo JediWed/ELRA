@@ -74,9 +74,8 @@ func ParseUserIDAndRole(request *http.Request) (int, int, error) {
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 			return int(claims["sub"].(float64)), int(claims["role"].(float64)), nil
-		} else {
-			return -1, -1, fmt.Errorf("Could not parse UserID")
 		}
+		return -1, -1, fmt.Errorf("Could not parse UserID")
 	}
 	return -1, -1, fmt.Errorf("Could not parse Bearer Token")
 }
