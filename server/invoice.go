@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/joncalhoun/qson"
 	"github.com/lightningnetwork/lnd/lnrpc"
 )
 
@@ -20,13 +21,14 @@ func CreateInvoice(response http.ResponseWriter, request *http.Request) {
 	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), CreateInvoiceEndpoint)
 	SetupCORS(&response, request)
 	var invoiceRequest structs.InvoiceRequest
-	err := json.NewDecoder(request.Body).Decode(&invoiceRequest)
+
+	err := qson.Unmarshal(&invoiceRequest, request.URL.Query().Encode())
 	if err != nil || invoiceRequest.Amount == 0 {
 		log.Print("Invoice Creation attempt with insufficient parameters.")
+		log.Print(err.Error())
 		response.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	tools.CheckError(err)
 
 	context, cancel, client, conn := lnd.ConnectLND()
 	defer conn.Close()

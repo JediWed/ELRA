@@ -1,4 +1,5 @@
 # E.L.R.A.
+[![Go Report Card](https://goreportcard.com/badge/github.com/JediWed/ELRA)](https://goreportcard.com/report/github.com/JediWed/ELRA)
 ## **E**asy **L**ND **R**EST **A**PI
 
 **ELRA** is an open source REST extension for [LND](https://github.com/lightningnetwork/lnd) with a lot of additional features compared to LND's default REST or gRPC API built on Go.
@@ -27,6 +28,7 @@ go get github.com/mattn/go-sqlite3
 go get github.com/dgrijalva/jwt-go
 go get github.com/gorilla/mux
 go get github.com/golang/protobuf/proto
+go get github.com/joncalhoun/qson
 go get github.com/lightningnetwork/lnd/lnrpc
 go get github.com/lightningnetwork/lnd/macaroons
 go get golang.org/x/crypto/bcrypt

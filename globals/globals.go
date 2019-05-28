@@ -44,6 +44,13 @@ func SetupGlobals() {
 	err = decoder.Decode(&Config)
 	tools.CheckError(err)
 
+	setupAPIConfig()
+	setupDatabaseConfig()
+	setupLNDConfig()
+	setupBitcoinPriceAPIConfig()
+}
+
+func setupAPIConfig() {
 	if Config.Port <= 0 || Config.Port > 65535 {
 		log.Println("No configured Port was found. Setting to 8181")
 		Config.Port = 8181
@@ -58,12 +65,16 @@ func SetupGlobals() {
 		log.Println("No configured Signing Kex was found. Creating Default Signing Key. This is very dangerous. You should set a Signing Key in your config.")
 		Config.SigningKey = "lss8hzIsJbXCP4g33yp12LtsrMJCehTK"
 	}
+}
 
+func setupDatabaseConfig() {
 	if Config.Database == "" {
 		log.Println("No Database was configured. Setting to default database elra.db.")
 		Config.Database = "./elra.db"
 	}
+}
 
+func setupLNDConfig() {
 	if Config.Macaroon == "" {
 		log.Println("No Macaroon was configured. Setting to local admin.macaroon.")
 		Config.Macaroon = "./admin.macaroon"
@@ -94,7 +105,9 @@ func SetupGlobals() {
 		log.Println("No configured Lighting Port was found. Setting to 10009")
 		Config.Port = 10009
 	}
+}
 
+func setupBitcoinPriceAPIConfig() {
 	if Config.BitcoinPriceAPI == "" {
 		log.Println("No Bitcoin Price API was found. Setting to https://api.bugs-ev.de/v1/bitcoinPrice")
 		Config.BitcoinPriceAPI = "https://api.bugs-ev.de/v1/bitcoinPrice"

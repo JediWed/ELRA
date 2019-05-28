@@ -2,11 +2,13 @@ package tools
 
 import (
 	"ELRA/structs"
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // BitcoinPrice is the global Bitcoin Price. Currency is defined by Bitcoin Price API (config)
@@ -17,7 +19,11 @@ func StartPriceDaemon(config structs.Configuration) {
 	delay := 1 * 60 * 1000 // Every minute
 
 	priceCheck := func() {
-		resp, err := http.Get(config.BitcoinPriceAPI)
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		request, err := http.NewRequest("GET", config.BitcoinPriceAPI, nil)
+		CheckError(err)
+		resp, err := http.DefaultClient.Do(request.WithContext(ctx))
 		if err != nil {
 			log.Print("There is something wrong with your Bitcoin Price API.")
 			log.Print(err.Error())
@@ -34,7 +40,7 @@ func StartPriceDaemon(config structs.Configuration) {
 			}
 
 		}
-		defer resp.Body.Close()
+		defer cancel()
 	}
 
 	priceCheck()
