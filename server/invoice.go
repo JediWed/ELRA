@@ -22,12 +22,10 @@ func CreateInvoice(response http.ResponseWriter, request *http.Request) {
 	SetupCORS(&response, request)
 	var invoiceRequest structs.InvoiceRequest
 
-	b, errQSON := qson.ToJSON(request.URL.Query().Encode())
-	errJSON := json.Unmarshal(b, &invoiceRequest)
-	if errQSON != nil || errJSON != nil || invoiceRequest.Amount == 0 {
+	err := qson.Unmarshal(&invoiceRequest, request.URL.Query().Encode())
+	if err != nil || invoiceRequest.Amount == 0 {
 		log.Print("Invoice Creation attempt with insufficient parameters.")
-		log.Print(errQSON.Error())
-		log.Print(errJSON.Error())
+		log.Print(err.Error())
 		response.WriteHeader(http.StatusBadRequest)
 		return
 	}
