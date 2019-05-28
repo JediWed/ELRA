@@ -10,12 +10,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// SetupCORS sets the CORS with Access-Control-Allow-Origin = *
 func SetupCORS(w *http.ResponseWriter, _ *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
+// StartServer starts the whole API Server
 func StartServer() {
 	log.Print("Preparing REST API")
 

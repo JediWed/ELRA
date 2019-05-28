@@ -33,6 +33,7 @@ func SetupLND() {
 	log.Print("LND ID: " + info.GetIdentityPubkey())
 }
 
+// ConnectLND connects to LND Server
 func ConnectLND() (context.Context, context.CancelFunc, lnrpc.LightningClient, *grpc.ClientConn) {
 	tlsCreds, err := credentials.NewClientTLSFromFile(globals.Config.TLS, "")
 	tools.CheckError(err)
