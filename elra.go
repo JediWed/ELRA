@@ -16,6 +16,6 @@ func main() {
 	globals.SetupGlobals()
 	database.SetupDatabase()
 	lnd.SetupLND()
-	tools.StartPriceDaemon(globals.Config)
+	go tools.StartPriceDaemon(globals.Config)
 	server.StartServer()
 }
