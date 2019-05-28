@@ -1,0 +1,189 @@
+swagger: "2.0"
+info:
+  description: "Description..."
+  version: "Alpha 1"
+  title: "Easy Lightning REST API"
+  # termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "contact@mail.com"
+  license:
+    name: "GNU General Public License v3.0"
+    url: "https://www.gnu.org/licenses/gpl-3.0.html"
+host: "localhost:8118"
+basePath: "/"
+tags:
+- name: "/invoice"
+  description: "Handling of all invoice related works"
+- name: "/user"
+  description: "Userhandling"
+schemes:
+- "http"
+paths:
+
+  /invoice/createInvoice:
+    get:
+      tags:
+      - "/invoice"
+      summary: "Create an invoice to pay it"
+      operationId: "createInvoice"
+      consumes: 
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "amount"
+        required: true
+        type: "integer"
+        default: 0
+        description: "Amount of Satoshi"
+      - in: "query"
+        name: "memo"
+        required: false
+        type: "string"
+        description: "Add a memo to the invoice"
+      responses:
+        200:
+          description: "Invoice successfully created"
+          schema:
+            $ref: "#/definitions/InvoiceResponse"
+        401:
+          description: "Not authorized"
+        
+  /user/login:
+    post:
+      tags:
+      - "/user"
+      summary: "Login with username and password"
+      operationId: "login"
+      consumes: 
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: "Login object"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginRequest"
+      responses:
+        200:
+          description: "Login successful"
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        401:
+          description: "Invalid login"
+          
+  /user/updateUsername:
+    post:
+      tags:
+      - "/user"
+      summary: "Change username"
+      consumes: 
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters: 
+      - in: "body"
+        name: "Body"
+        description: "Update Username Object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUsernameRequest"
+      responses:
+        200:
+          description: "Username change successfull"
+        401:
+          description: "Not authorized"
+      security: 
+      - BearerAuth: []
+            
+  /user/updatePassword:
+    post:
+      tags:
+      - "/user"
+      summary: "Change users password"
+      consumes: 
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters: 
+      - in: "body"
+        name: "Body"
+        description: "Update Password Object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdatePasswordRequest"
+      responses:
+        200:
+          description: "Password change successfull"
+        401:
+          description: "Not authorized"
+      security: 
+      - BearerAuth: []
+          
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+      
+definitions:
+  InvoiceResponse:
+    type: "object"
+    properties:
+      payment_request:
+        type: string
+        description: Invoice Payment Request
+  LoginRequest:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        default: admin
+      password:
+        type: "string"
+        default: private
+    required: 
+      - username
+      - password
+  LoginResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+        description: "Username"
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      email:
+        type: "string"
+      role:
+        type: "integer"
+        description: "User Role"
+      token:
+        type: "string"
+        description: "Bearer Authorization Token"
+  UpdateUsernameRequest:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+        description: "New Username"
+    required: 
+      - password
+  UpdatePasswordRequest:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+        description: "New Password"
+    required: 
+      - password
+externalDocs:
+  description: "Find out more about ELRA"
+  url: "https://github.com/JediWed/ELRA/wiki"
