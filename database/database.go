@@ -35,6 +35,7 @@ func SetupDatabase() {
 		tools.CheckError(err)
 		createUser.Exec()
 		passwordHash, err := bcrypt.GenerateFromPassword([]byte("private"+globals.Config.Pepper), bcrypt.DefaultCost)
+		tools.CheckError(err)
 		insertuser, err := db.Prepare("INSERT INTO user (id, name, password, firstname, lastname, email, role) VALUES (?, ?, ?, ?, ?, ?, ?)")
 		tools.CheckError(err)
 		insertuser.Exec(1, "admin", string(passwordHash), "Admin", "Almighty", "admin@allnetworks.com", globals.RoleAdmin.ID)
