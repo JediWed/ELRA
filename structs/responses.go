@@ -11,6 +11,7 @@ type LoginResponse struct {
 	Token     string `json:"token"`
 }
 
+// InvoiceResponse contains only payment request
 type InvoiceResponse struct {
 	PaymentRequest string `json:"payment_request"`
 }
