@@ -13,6 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Login checks the login against the database
 func Login(loginRequest structs.LoginRequest) ([]byte, error) {
 	db, err := sql.Open(DatabaseType, globals.Config.Database)
 	tools.CheckError(err)
@@ -52,7 +53,7 @@ func Login(loginRequest structs.LoginRequest) ([]byte, error) {
 	if err != nil {
 		log.Print("Could not create JWT Token.")
 		log.Print(err)
-		return nil, fmt.Errorf("Could not create JWT Token.")
+		return nil, fmt.Errorf("Could not create JWT Token")
 	}
 
 	loginResponse := structs.LoginResponse{ID: id, Name: name, Firstname: firstname, Lastname: lastname, Email: email, Role: role, Token: token}
@@ -69,6 +70,7 @@ func Login(loginRequest structs.LoginRequest) ([]byte, error) {
 	return json, nil
 }
 
+// UpdatePassword changes the password for the given user with the given password
 func UpdatePassword(updateRequest structs.UpdatePasswordRequest) error {
 
 	db, err := sql.Open(DatabaseType, globals.Config.Database)
@@ -92,6 +94,7 @@ func UpdatePassword(updateRequest structs.UpdatePasswordRequest) error {
 	return err
 }
 
+// UpdateUsername changes the username for the given user with the given username
 func UpdateUsername(updateRequest structs.UpdateUsernameRequest) error {
 
 	db, err := sql.Open(DatabaseType, globals.Config.Database)

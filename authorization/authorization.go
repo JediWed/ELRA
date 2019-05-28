@@ -12,6 +12,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+// CreateJWTToken creates a JWT Token with User ID and User Role
 func CreateJWTToken(userid int, userrole int, configuration structs.Configuration) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
@@ -28,6 +29,7 @@ func CreateJWTToken(userid int, userrole int, configuration structs.Configuratio
 	return tokenString, nil
 }
 
+// CheckAuthorization checks if user is authorized (valid JWT Token available)
 func CheckAuthorization(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		paramToken := strings.Split(r.Header.Get("Authorization"), "Bearer")
@@ -54,6 +56,7 @@ func CheckAuthorization(endpoint func(http.ResponseWriter, *http.Request)) http.
 	})
 }
 
+// ParseUserIDAndRole parses User ID and Role from JWT Token
 func ParseUserIDAndRole(request *http.Request) (int, int, error) {
 	paramToken := strings.Split(request.Header.Get("Authorization"), "Bearer")
 	if len(paramToken) == 2 {
