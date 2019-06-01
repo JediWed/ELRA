@@ -49,6 +49,8 @@ paths:
             $ref: "#/definitions/InvoiceResponse"
         401:
           description: "Not authorized"
+        429:
+          description: "Too many invoices requested. Max 3 invoices per Minute. Max 10 per Hour."
         
   /user/login:
     post:
