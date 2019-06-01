@@ -18,11 +18,25 @@ const CreateInvoiceEndpoint = "/invoice/createInvoice"
 
 // CreateInvoice creates an invoice with amount and optional memo
 func CreateInvoice(response http.ResponseWriter, request *http.Request) {
-	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), CreateInvoiceEndpoint)
+	ipAddress := tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr)
 	SetupCORS(&response, request)
+
+	limitExceeded, err := database.AccessLimitExceeded(ipAddress, CreateInvoiceEndpoint, 3, 10)
+
+	if err != nil || limitExceeded {
+		log.Print("Limit Exceeded for IP Address " + ipAddress + " at endpoint " + CreateInvoiceEndpoint)
+		if err != nil {
+			log.Print(err.Error())
+		}
+		response.WriteHeader(http.StatusTooManyRequests)
+		return
+	}
+
+	database.AccessLog(ipAddress, CreateInvoiceEndpoint)
+
 	var invoiceRequest structs.InvoiceRequest
 
-	err := qson.Unmarshal(&invoiceRequest, request.URL.Query().Encode())
+	err = qson.Unmarshal(&invoiceRequest, request.URL.Query().Encode())
 	if err != nil || invoiceRequest.Amount == 0 {
 		log.Print("Invoice Creation attempt with insufficient parameters.")
 		log.Print(err.Error())

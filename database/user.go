@@ -51,7 +51,7 @@ func Login(loginRequest structs.LoginRequest) ([]byte, error) {
 	token, err := authorization.CreateJWTToken(id, role, globals.Config)
 
 	if err != nil {
-		log.Print("Could not create JWT Token.")
+		log.Print("Could not create JWT Token")
 		log.Print(err)
 		return nil, fmt.Errorf("Could not create JWT Token")
 	}
