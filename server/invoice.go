@@ -48,7 +48,13 @@ func CreateInvoice(response http.ResponseWriter, request *http.Request) {
 	defer conn.Close()
 	defer cancel()
 
-	invoice, err := client.AddInvoice(context, &lnrpc.Invoice{Memo: invoiceRequest.Memo, Value: invoiceRequest.Amount})
+	if invoiceRequest.Expiry <= 0 {
+		invoiceRequest.Expiry = 3600
+	} else if invoiceRequest.Expiry > 86400 {
+		invoiceRequest.Expiry = 86400
+	}
+
+	invoice, err := client.AddInvoice(context, &lnrpc.Invoice{Memo: invoiceRequest.Memo, Value: invoiceRequest.Amount, Expiry: invoiceRequest.Expiry})
 	tools.CheckError(err)
 
 	response.Header().Set("Content-Type", "application/json")

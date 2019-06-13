@@ -22,4 +22,5 @@ type UpdateUsernameRequest struct {
 type InvoiceRequest struct {
 	Amount int64  `json:"amount"`
 	Memo   string `json:"memo"`
+	Expiry int64  `json:"expiry"`
 }

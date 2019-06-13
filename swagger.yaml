@@ -42,6 +42,11 @@ paths:
         required: false
         type: "string"
         description: "Add a memo to the invoice"
+      - in: "query"
+        name: "expiry"
+        required: false
+        type: "integer"
+        description: "Expiry time in seconds. Default: 3600 (1 Hour)"
       responses:
         200:
           description: "Invoice successfully created"
