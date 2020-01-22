@@ -5,6 +5,7 @@ import (
 	"ELRA/lnd"
 	"ELRA/structs"
 	"ELRA/tools"
+	"encoding/hex"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -58,7 +59,7 @@ func CreateInvoice(response http.ResponseWriter, request *http.Request) {
 	tools.CheckError(err)
 
 	response.Header().Set("Content-Type", "application/json")
-	responseJSON, err := json.Marshal(&structs.InvoiceResponse{PaymentRequest: invoice.GetPaymentRequest()})
+	responseJSON, err := json.Marshal(&structs.InvoiceResponse{PaymentRequest: invoice.GetPaymentRequest(), RHash: hex.EncodeToString(invoice.GetRHash())})
 	tools.CheckError(err)
 	response.Write(responseJSON)
 }
