@@ -13,7 +13,7 @@ const GetVersionEndpoint = "/version"
 
 // GetVersion returns Version of ELRA
 func GetVersion(response http.ResponseWriter, request *http.Request) {
-	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), GetVersionEndpoint)
+	database.AccessLog(tools.ExtractIPAddressFromRequest(request), GetVersionEndpoint)
 	SetupCORS(&response, request)
 	response.Write([]byte(fmt.Sprintf("{\"version\": \"%s\"}", globals.Version)))
 }

@@ -80,7 +80,7 @@ func UpdatePassword(response http.ResponseWriter, request *http.Request) {
 
 // UpdateUsername is the server sided function to handle update username endpoint
 func UpdateUsername(response http.ResponseWriter, request *http.Request) {
-	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), UpdateUsernameEndpoint)
+	database.AccessLog(tools.ExtractIPAddressFromRequest(request), UpdateUsernameEndpoint)
 	SetupCORS(&response, request)
 	userid, _, err := authorization.ParseUserIDAndRole(request)
 
