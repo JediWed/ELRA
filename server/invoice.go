@@ -10,12 +10,41 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"github.com/joncalhoun/qson"
 	"github.com/lightningnetwork/lnd/lnrpc"
 )
 
+// GetInvoiceEndpoint is the Endpoint to get information about an existing Invoice like if it was settled (paid)
+const GetInvoiceEndpoint = "/invoice/{rhash}"
+
 // CreateInvoiceEndpoint is the Endpoint for CreateInvoice
 const CreateInvoiceEndpoint = "/invoice/createInvoice"
+
+// GetInvoice returns the settlement status of an invoice
+func GetInvoice(response http.ResponseWriter, request *http.Request) {
+	ipAddress := tools.ExtractIPAddressFromRequest(request)
+	SetupCORS(&response, request)
+	database.AccessLog(ipAddress, GetInvoiceEndpoint)
+	rhash := mux.Vars(request)["rhash"]
+
+	context, cancel, client, conn := lnd.ConnectLND()
+	defer conn.Close()
+	defer cancel()
+
+	invoice, err := client.LookupInvoice(context, &lnrpc.PaymentHash{RHashStr: rhash})
+
+	if err != nil {
+		response.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	response.Header().Set("Content-Type", "application/json")
+	responseJSON, err := json.Marshal(&structs.InvoiceCheckResponse{Settled: invoice.Settled})
+	tools.CheckError(err)
+	response.Write(responseJSON)
+}
 
 // CreateInvoice creates an invoice with amount and optional memo
 func CreateInvoice(response http.ResponseWriter, request *http.Request) {

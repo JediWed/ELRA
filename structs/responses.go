@@ -11,8 +11,13 @@ type LoginResponse struct {
 	Token     string `json:"token"`
 }
 
-// InvoiceResponse contains only payment request
+// InvoiceResponse contains only payment request and r_hash
 type InvoiceResponse struct {
 	PaymentRequest string `json:"payment_request"`
 	RHash          string `json:"r_hash"`
+}
+
+// InvoiceCheckResponse returns settlement status
+type InvoiceCheckResponse struct {
+	Settled bool `json:"settled"`
 }
