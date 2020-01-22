@@ -18,7 +18,7 @@ const CreateInvoiceEndpoint = "/invoice/createInvoice"
 
 // CreateInvoice creates an invoice with amount and optional memo
 func CreateInvoice(response http.ResponseWriter, request *http.Request) {
-	ipAddress := tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr)
+	ipAddress := request.Header.Get("X-Forwarded-For")
 	SetupCORS(&response, request)
 
 	limitExceeded, err := database.AccessLimitExceeded(ipAddress, CreateInvoiceEndpoint, 3, 10)

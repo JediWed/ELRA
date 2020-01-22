@@ -4,7 +4,6 @@ import (
 	"ELRA/authorization"
 	"ELRA/database"
 	"ELRA/structs"
-	"ELRA/tools"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -21,7 +20,7 @@ const UpdateUsernameEndpoint = "/user/updateUsername"
 
 // Login is the server sided function to handle login endpoint
 func Login(response http.ResponseWriter, request *http.Request) {
-	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), LoginEndpoint)
+	database.AccessLog(request.Header.Get("X-Forwarded-For"), LoginEndpoint)
 	SetupCORS(&response, request)
 	if (*request).Method == "OPTIONS" {
 		return
@@ -48,7 +47,7 @@ func Login(response http.ResponseWriter, request *http.Request) {
 
 // UpdatePassword is the server sided function to handle update password endpoint
 func UpdatePassword(response http.ResponseWriter, request *http.Request) {
-	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), UpdatePasswordEndpoint)
+	database.AccessLog(request.Header.Get("X-Forwarded-For"), UpdatePasswordEndpoint)
 	SetupCORS(&response, request)
 	userid, _, err := authorization.ParseUserIDAndRole(request)
 
@@ -80,7 +79,7 @@ func UpdatePassword(response http.ResponseWriter, request *http.Request) {
 
 // UpdateUsername is the server sided function to handle update username endpoint
 func UpdateUsername(response http.ResponseWriter, request *http.Request) {
-	database.AccessLog(tools.ExtractIPAddressFromRemoteAddr(request.RemoteAddr), UpdateUsernameEndpoint)
+	database.AccessLog(request.Header.Get("X-Forwarded-For"), UpdateUsernameEndpoint)
 	SetupCORS(&response, request)
 	userid, _, err := authorization.ParseUserIDAndRole(request)
 

@@ -13,7 +13,7 @@ serve: build
 
 linux: clean
 	mkdir release
-	GOOS=linux GOARCH=amd64 go build -ldflags '-w -extldflags "-static"' -o dist/elra elra.go
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -ldflags '-w -extldflags "-static"' -o dist/elra elra.go
 	zip -rj release/ELRA_$(version)_Linux.zip dist/*
 	$(RM) dist/elra dist/elra.exe dist/elra.db
 
@@ -36,6 +36,6 @@ release: clean
 	$(RM) dist/elra dist/elra.exe dist/elra.db
 	
 	# ARMHF x86 (Raspberry Pi) 
-	GOOS=linux GOARCH=arm GOARM=7 CC=arm-linux-musleabihf-gcc go build -o dist/elra elra.go
+	GOOS=linux GOARCH=arm GOARM=7 CGO_ENABLED=1 CC=arm-linux-musleabihf-gcc go build -o dist/elra elra.go
 	zip -rj release/ELRA_$(version)_RaspberryPi.zip dist/*
 	$(RM) dist/elra dist/elra.exe dist/elra.db
