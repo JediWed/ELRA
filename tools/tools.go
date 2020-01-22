@@ -24,7 +24,7 @@ func ExtractIPAddressFromRequest(request *http.Request) string {
 	ipAddress = request.Header.Get("X-Forwarded-For")
 
 	if ipAddress != "" {
-		return ipAddress
+		return ExtractIPAddressFromRemoteAddr(ipAddress)
 	}
 
 	ipAddress = request.RemoteAddr
@@ -39,7 +39,9 @@ func ExtractIPAddressFromRequest(request *http.Request) string {
 // ExtractIPAddressFromRemoteAddr extracts IP Address from a Remote Address
 func ExtractIPAddressFromRemoteAddr(remoteAddr string) string {
 	ipIndex := strings.LastIndex(remoteAddr, ":")
-	log.Print(ipIndex)
-	ip := remoteAddr[0:ipIndex]
-	return ip
+	if ipIndex != -1 {
+		ip := remoteAddr[0:ipIndex]
+		return ip
+	}
+	return remoteAddr
 }
