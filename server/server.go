@@ -35,8 +35,8 @@ func StartServer() {
 	router.HandleFunc(GetVersionEndpoint, GetVersion).Methods("GET")
 
 	// /invoice
-	router.HandleFunc(GetInvoiceEndpoint, GetInvoice).Methods("GET")
 	router.HandleFunc(CreateInvoiceEndpoint, CreateInvoice).Methods("GET")
+	router.HandleFunc(GetInvoiceEndpoint, GetInvoice).Methods("GET")
 
 	// /user
 	router.HandleFunc(LoginEndpoint, Login).Methods("POST")
